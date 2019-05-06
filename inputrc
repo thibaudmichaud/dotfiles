@@ -1,0 +1,4 @@
+"\e[A" history-search-backward
+"\020" history-search-backward
+"\e[B" history-search-forward
+"\016" history-search-forward

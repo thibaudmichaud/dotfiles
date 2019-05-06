@@ -1,17 +1,12 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
+let mapleader = ","
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin()
+Plug 'kien/ctrlp.vim'
+Plug 'Valloric/YouCompleteMe'
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'derekwyatt/vim-protodef'
-Plugin 'derekwyatt/vim-fswitch'
-
-call vundle#end()
 filetype plugin indent on
 
 " status bar
@@ -21,19 +16,11 @@ set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
 " colors
 syntax enable
 color default
-au BufNewFile,BufRead *.i set filetype=swig
-au BufNewFile,BufRead *.swg set filetype=swig 
-au BufNewFile,BufRead *.tig set filetype=tiger
-
-" abbreviations
-autocmd FileType tex iabbr <buffer> ... \ldots
-autocmd FileType tex iabbr <buffer> img \includegraphics[]{}<esc>i
-autocmd FileType c,cpp iabbr <buffer> def #define
-autocmd FileType c,cpp iabbr <buffer> inc #include
+hi Search ctermfg=black ctermbg=yellow
 
 " command tab completion
 set wildmenu
-set wildmode=full
+set wildmode=list:longest
 
 " tab behavior
 set expandtab
@@ -48,20 +35,9 @@ hi Folded ctermbg=234
 " search
 set incsearch
 set hlsearch
-set smartcase
-noremap <f4> :set hlsearch!<CR>
 
 " file explorer
-let g:netrw_alto=1
-let g:netrw_altv=1
-let g:netrw_winsize=80
 let g:netrw_liststyle=3
-
-"gui
-:set guioptions-=m  "remove menu bar
-:set guioptions-=T  "remove toolbar
-:set guioptions-=r  "remove right-hand scroll bar
-:set guioptions-=L  "remove left-hand scroll bar
 
 " call git grep from vim and list results in the quickfix window
 func GitGrep(...)
@@ -78,59 +54,32 @@ func GitGrep(...)
 endfun
 command -nargs=? G call GitGrep(<f-args>)
 
-" auto header guard
-function! s:header_guard()
-  let guardname = substitute(toupper(expand("%:t")), "\\.", "_", "g")
-  execute "normal! i#ifndef " . guardname
-  execute "normal! o# define " . guardname
-  execute "normal! Go#endif /* !" . guardname . " */"
-  execute "normal! O\<cr>\<cr>\<up>"
-endfunction
-autocmd BufNewFile *.{h,hpp,hh} call <SID>header_guard()
-
-" switch between cpp source and header
-function! SwitchSourceHeader()
-  "update!
-  if (expand ("%:e") == "cc")
-    find %:t:r.hh
-  else
-    find %:t:r.cc
-  endif
-endfunction
-autocmd FileType cpp nmap ,h :call SwitchSourceHeader()<CR>
-
-" Epita coding-style compliant comments
-autocmd FileType c,cpp set comments=s0:/*,mb:**,ex:*/
-
 " :make, improved
 nnoremap <leader>m :silent make\|redr!\|bo cw\|cc<CR>
 
 " misc settings
-let mapleader = ","
-autocmd FileType mail set textwidth=72
-set textwidth=80
-set formatoptions+=t
-set wrap
 set mouse=a
 set wildignore+=*.o,*.swp
 set hidden
 set tags=./tags;
-let g:acp_enableAtStartup=0
 set noswapfile
 set splitbelow
 set splitright
 set showmatch
 set cinoptions+=:O
+set cm=blowfish2
+set backspace=2
 
-" misc mapping
-nnoremap <leader>p :set paste!<cr>
-nnoremap <leader>s :w<CR>
-cmap w!! w !sudo tee > /dev/null %
-nnoremap du :diffupdate<CR>
-nnoremap dp :diffput<CR>
-nnoremap dg :diffget<CR>
-nnoremap <silent> zj o<esc>
-nnoremap <silent> zk O<esc>
+" Highlight over 80 chars for C/C++
+autocmd FileType c,cpp highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+autocmd FileType c,cpp match OverLength /\%81v.\+/
+
+" Quickfix list navigation
+nnoremap <leader>n :cn<CR>
+nnoremap <leader>p :cp<CR>
 
 " plugin settings
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+let g:ctrlp_match_window = 'results:40' " overcome limit imposed by max height
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1

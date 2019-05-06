@@ -1,0 +1,53 @@
+URxvt.saveLines:32767
+URxvt.scrollBar: false
+
+URxvt.perl-ext-common: default,clipboard,font-size
+URxvt.clipboard.autocopy: true
+URxvt.keysym.C-Up:     perl:font-size:increase
+URxvt.keysym.C-Down:   perl:font-size:decrease
+URxvt.keysym.C-S-Up:   perl:font-size:incglobal
+URxvt.keysym.C-S-Down: perl:font-size:decglobal
+
+URxvt.font: xft:Inconsolata:style=Regular:size=14:antialias=true
+URxvt.letterSpace: -1
+
+*.foreground:  #c5c8c6
+*.background:  #1d1f21
+*.cursorColor: #c5c8c6
+!
+! Black
+*.color0:      #000000
+*.color8:      #000000
+!
+! Red
+*.color1:      #cc6666
+*.color9:      #cc6666
+!
+! Green
+*.color2:      #b5bd68
+*.color10:     #b5bd68
+!
+! Yellow
+*.color3:      #f0c674
+*.color11:     #f0c674
+!
+! Blue
+*.color4:      #81a2be
+*.color12:     #81a2be
+!
+! Magenta
+*.color5:      #b294bb
+*.color13:     #b294bb
+!
+! Cyan
+*.color6:      #8abeb7
+*.color14:     #8abeb7
+!
+! White
+*.color7:      #ffffff
+*.color15:     #ffffff
+!
+! Bold, Italic, Underline
+*.colorBD:     #c5c8c6
+!*.colorIT:
+!*.colorUL:
